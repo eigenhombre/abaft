@@ -4,6 +4,7 @@
 #include <string.h>
 #include <time.h>
 
+#include "forth.h"
 #include "names.h"
 #include "parse.h"
 #include "stack.h"
@@ -82,8 +83,7 @@ int main(int argc, char *argv[]) {
             printf("EOF.  Bye!\n");
             break;
         }
-        interpret(line, s);
-        printf("%s", line);
+        interpret_line(line, s);
     }
     free(s);
     return 0;

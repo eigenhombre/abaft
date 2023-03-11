@@ -21,3 +21,18 @@ int parse_number(char *line, int *value) {
     *value = number;
     return 1;
 }
+
+char *skip_whitespace(char *line) {
+    while (*line && isspace(*line)) {
+        line++;
+    }
+    return line;
+}
+
+char *advance_token(char *line) {
+    // Assumes no whitespace at beginning of line
+    while (*line && !isspace(*line)) {
+        line++;
+    }
+    return line;
+}
