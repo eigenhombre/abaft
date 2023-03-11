@@ -6,10 +6,10 @@ written in C, somewhat following along the lines of [this discussion on Hacker N
 
     
     $ make
-    make[1]: `abaft' is up to date.
+    cc -o abaft ./forth.c ./stack.c ./main.c ./parse.c -std=c17 -Wall
     
     $ ./abaft -e examples.fs
-    Sally Forth. Clair Abaft.
+    Sally Forth. Lizette Abaft.
     > 1 2 + .
     3
     > 5 6 * 19 20 + * .
