@@ -47,27 +47,28 @@ void test_example_word(void) {
 }
 
 void test_interpreter(void) {
+    interpret_mode i_n = INTERPRET_NORMAL;
     stack *s = new_stack(100);
     interpret_word("1", s);
     interpret_word("2", s);
     interpret_word("+", s);
     assert(3 == pop(s));
 
-    interpret_line("", s);
-    interpret_line(" ", s);
-    interpret_line("1", s);
+    interpret_line("", s, i_n);
+    interpret_line(" ", s, i_n);
+    interpret_line("1", s, i_n);
     assert(1 == pop(s));
-    interpret_line(" 1", s);
+    interpret_line(" 1", s, i_n);
     assert(1 == pop(s));
-    interpret_line(" 1  ", s);
+    interpret_line(" 1  ", s, i_n);
     assert(1 == pop(s));
-    interpret_line("1 2 3", s);
+    interpret_line("1 2 3", s, i_n);
     assert(3 == pop(s));
     assert(2 == pop(s));
     assert(1 == pop(s));
-    interpret_line("1 2 +", s);
+    interpret_line("1 2 +", s, i_n);
     assert(3 == pop(s));
-    interpret_line("1 2 + 10 *", s);
+    interpret_line("1 2 + 10 *", s, i_n);
     assert(30 == pop(s));
     free_stack(s);
 }

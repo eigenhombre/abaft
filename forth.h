@@ -10,8 +10,13 @@ typedef struct entry {
 
 entry *lookup(char *name);
 
+typedef enum {
+    INTERPRET_NORMAL = 0,
+    INTERPRET_VERBOSE,
+} interpret_mode;
+
 void interpret_word(char *word, stack *s);
 
-void interpret_line(char *line, stack *s);
+void interpret_line(char *line, stack *s, interpret_mode mode);
 
 #endif

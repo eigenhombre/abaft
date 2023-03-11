@@ -1,3 +1,5 @@
+#include "forth.h"
+
 #include <assert.h>
 #include <ctype.h>
 #include <stddef.h>
@@ -37,11 +39,6 @@ void dot(stack *s) {
     printf("%d\n", a);
 }
 
-typedef struct entry {
-    char *name;
-    void (*func)(stack *s);
-} entry;
-
 entry dict[] = {
     {"+", &add   },
     {"*", &mul   },
@@ -74,7 +71,10 @@ void interpret_word(char *word, stack *s) {
     }
 }
 
-void interpret_line(char *line, stack *s) {
+void interpret_line(char *line, stack *s, interpret_mode mode) {
+    if (mode == INTERPRET_VERBOSE) {
+        printf("> %s", line);
+    }
     char *start = skip_whitespace(line);
     while (*start) {
         char *end = advance_token(start);
