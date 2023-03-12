@@ -11,16 +11,16 @@ News](https://news.ycombinator.com/item?id=13082825).
 
     
     $ make
-    cc -o abaft ./forth.c ./stack.c ./main.c ./parse.c -std=c17 -Wall
+    make[1]: `abaft' is up to date.
     
     $ ./abaft -e examples.fs
-    Sally Forth. Lizette Abaft.
+    Sally Forth. Whitney Abaft.
     > 1 2 + .
     3
     > 5 6 * 19 20 + * .
     1170
     > 1 3 - .
-    2
+    -2
     
     
     

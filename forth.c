@@ -25,13 +25,13 @@ void mul(stack *s) {
 void sub(stack *s) {
     int a = pop(s);
     int b = pop(s);
-    push(s, a - b);
+    push(s, b - a);
 }
 
 void divide(stack *s) {
     int a = pop(s);
     int b = pop(s);
-    push(s, a / b);
+    push(s, b / a);
 }
 
 void dot(stack *s) {
