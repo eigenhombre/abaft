@@ -14,13 +14,37 @@ News](https://news.ycombinator.com/item?id=13082825).
     make[1]: `abaft' is up to date.
     
     $ ./abaft -e examples.fs
-    Sally Forth. Whitney Abaft.
+    Sally Forth. Kimberlee Abaft.
     > 1 2 + .
     3
     > 5 6 * 19 20 + * .
     1170
     > 1 3 - .
     -2
+    > 10 10 dup * .
+    100
+    > 99 100 drop .
+    99
+    >
+    > 88 99 . .
+    99
+    88
+    > 88 99 swap . .
+    88
+    99
+    > 88 99 over . . .
+    88
+    99
+    88
+    >
+    > 1 2 3 . . .
+    3
+    2
+    1
+    > 1 2 3 rot . . .
+    1
+    3
+    2
     
     
     

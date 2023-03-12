@@ -39,12 +39,49 @@ void dot(stack *s) {
     printf("%d\n", a);
 }
 
+void dup(stack *s) {
+    int a = pop(s);
+    push(s, a);
+    push(s, a);
+}
+
+void drop(stack *s) { pop(s); }
+
+void rot(stack *s) {
+    int a = pop(s);
+    int b = pop(s);
+    int c = pop(s);
+    push(s, b);
+    push(s, a);
+    push(s, c);
+}
+
+void swap(stack *s) {
+    int a = pop(s);
+    int b = pop(s);
+    push(s, a);
+    push(s, b);
+}
+
+void over(stack *s) {
+    int a = pop(s);
+    int b = pop(s);
+    push(s, b);
+    push(s, a);
+    push(s, b);
+}
+
 entry dict[] = {
-    {"+", &add   },
-    {"*", &mul   },
-    {"-", &sub   },
-    {"/", &divide},
-    {".", &dot   },
+    {"+",    &add   },
+    {"*",    &mul   },
+    {"-",    &sub   },
+    {"/",    &divide},
+    {".",    &dot   },
+    {"dup",  &dup   },
+    {"drop", &drop  },
+    {"rot",  &rot   },
+    {"swap", &swap  },
+    {"over", &over  },
 };
 
 entry *lookup(char *name) {
