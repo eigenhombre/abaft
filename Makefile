@@ -1,4 +1,4 @@
-.PHONY: all clean mac-deps tidy run doc
+.PHONY: all clean mac-deps tidy run doc docker
 PROG = abaft
 NONTEST_C = $(shell find . -name '*.c' -not -name 'test.c')
 NONMAIN_C = $(shell find . -name '*.c' -not -name 'main.c')
@@ -27,3 +27,6 @@ run: ${PROG}
 
 doc:
 	python updatereadme.py
+
+docker:
+	docker build -t abaft .
