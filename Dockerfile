@@ -2,8 +2,8 @@ FROM ubuntu:23.04
 
 RUN apt -q -y update
 RUN apt -q -y upgrade
-RUN apt-get -q -y install llvm build-essential python3 clang
+RUN apt-get -q -y install build-essential
 
 COPY . .
-RUN make
-RUN make all
+RUN make abaft test
+
