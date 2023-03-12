@@ -1,3 +1,7 @@
+# abaft
+
+<img src="/abaft.jpg" width="500">
+
 ![build](https://github.com/eigenhombre/abaft/actions/workflows/build.yml/badge.svg)
 
 This is a work in progress leading towards a simple
@@ -14,7 +18,7 @@ News](https://news.ycombinator.com/item?id=13082825).
     make[1]: `abaft' is up to date.
     
     $ ./abaft -e examples.fs
-    Sally Forth. Kimberlee Abaft.
+    Sally Forth. Connie Abaft.
     > 1 2 + .
     3
     > 5 6 * 19 20 + * .
