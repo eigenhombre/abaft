@@ -3,7 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-selem pop(stack *s) { return s->data[--s->sp]; }
+err_t pop(stack *s, selem *result) {
+    if (s->sp == 0) {
+        return EVAL_STACK_UNDERFLOW;
+    }
+    *result = s->data[--s->sp];
+    return EVAL_OK;
+}
 
 void push(stack *s, selem value) { s->data[s->sp++] = value; }
 

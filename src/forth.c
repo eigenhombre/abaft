@@ -4,6 +4,7 @@
 #include <abaft/forth.h>
 #include <abaft/parse.h>
 #include <abaft/stack.h>
+#include <abaft/types.h>
 #include <assert.h>
 #include <ctype.h>
 #include <stddef.h>
@@ -97,7 +98,7 @@ void print_stack(stack *s) {
     printf("\n");
 }
 
-void eval_word(char *line, int len, stack *s) {
+err_t eval_word(char *line, int len, stack *s) {
     // Handle immediate word special cases:
     if (strncmp(line, ":", len) == 0) {
         compile_mode = true;
@@ -114,25 +115,25 @@ void eval_word(char *line, int len, stack *s) {
         dict[homegrown].name = name;
         dict[homegrown].def = malloc(100 * sizeof(int));
         dict[homegrown].deflen = 0;
-        return;
+        return EVAL_OK;
     } else if (strncmp(line, ";", len) == 0) {
         compile_mode = false;
         printf("Leaving compile mode\n");
         homegrown++;
-        return;
+        return EVAL_OK;
     }
     if (compile_mode) {
         entry *e = lookup(line, len);
         if (e) {
             dict[homegrown].def[dict[homegrown].deflen] = e - dict;
             dict[homegrown].deflen++;
-            return;
+            return EVAL_OK;
         }
         int num;
         if (parse_number(line, len, &num)) {
             dict[homegrown].def[dict[homegrown].deflen] = num;
             dict[homegrown].deflen++;
-            return;
+            return EVAL_OK;
         }
         printf("Unknown word in compile mode: '%.*s'\n", len, line);
     }
@@ -140,14 +141,17 @@ void eval_word(char *line, int len, stack *s) {
     int num;
     if (parse_number(line, len, &num)) {
         push(s, num);
-        return;
+        return EVAL_OK;
     }
     // See if it's a word
     entry *e = lookup(line, len);
     if (e) {
         if (e->func) {
             // printf("Calling built in function %s\n", e->name);
-            e->func(s);
+            err_t result = e->func(s);
+            if (result != EVAL_OK) {
+                return result;
+            }
         } else {  // It's an interpreted function:
             for (int i = 0; i < e->deflen; i++) {
                 // printf("%d: %d (%s)\n", i, e->def[i],
@@ -155,13 +159,14 @@ void eval_word(char *line, int len, stack *s) {
                 dict[e->def[i]].func(s);
             }
         }
-        return;
+        return EVAL_OK;
     } else {
         printf("Unknown word at beginning of: '%s'\n", line);
+        return EVAL_UNKNOWN_WORD;
     }
 }
 
-void eval_line(char *line, stack *s, eval_mode mode) {
+err_t eval_line(char *line, stack *s, eval_mode mode) {
     if (mode == INTERPRET_VERBOSE) {
         printf("> %s", line);
     }
@@ -174,16 +179,19 @@ void eval_line(char *line, stack *s, eval_mode mode) {
         if (len == 0) {
             break;
         }
-        eval_word(start, len, s);
+        err_t result = eval_word(start, len, s);
+        if (result != EVAL_OK) {
+            return result;
+        }
         start = skip_whitespace(end);
     }
+    return EVAL_OK;
 }
 
-void eval_file(const char *filename, stack *s) {
+err_t eval_file(const char *filename, stack *s) {
     FILE *f = fopen(filename, "r");
     if (!f) {
-        perror("fopen");
-        exit(1);
+        return EVAL_UNKNOWN_FILE;
     }
     char *line = NULL;
     size_t len = 0;
@@ -191,8 +199,12 @@ void eval_file(const char *filename, stack *s) {
     while ((read = getline(&line, &len, f)) != -1) {
         // TODO: make printing optional:
         printf("%s", line);
-        eval_line(line, s, INTERPRET_NORMAL);
+        err_t result = eval_line(line, s, INTERPRET_NORMAL);
+        if (result != EVAL_OK) {
+            return result;
+        }
     }
     free(line);
     fclose(f);
+    return EVAL_OK;
 }

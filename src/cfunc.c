@@ -1,78 +1,109 @@
 #include <abaft/cfunc.h>
+#include <abaft/types.h>
 #include <stdio.h>   // printf
 #include <stdlib.h>  // exit
 
-void add(stack *s) {
-    int a = pop(s);
-    int b = pop(s);
+#define CHECK_POP(s, v)                       \
+    if (pop(s, &v) == EVAL_STACK_UNDERFLOW) { \
+        return EVAL_STACK_UNDERFLOW;          \
+    }
+
+err_t add(stack *s) {
+    selem a, b;
+    CHECK_POP(s, a);
+    CHECK_POP(s, b);
     push(s, a + b);
+    return EVAL_OK;
 }
 
-void mul(stack *s) {
-    int a = pop(s);
-    int b = pop(s);
+err_t mul(stack *s) {
+    selem a, b;
+    CHECK_POP(s, a);
+    CHECK_POP(s, b);
     push(s, a * b);
+    return EVAL_OK;
 }
 
-void sub(stack *s) {
-    int a = pop(s);
-    int b = pop(s);
+err_t sub(stack *s) {
+    selem a, b;
+    CHECK_POP(s, a);
+    CHECK_POP(s, b);
     push(s, b - a);
+    return EVAL_OK;
 }
 
-void divide(stack *s) {
-    int a = pop(s);
-    int b = pop(s);
+err_t divide(stack *s) {
+    selem a, b;
+    CHECK_POP(s, a);
+    CHECK_POP(s, b);
     push(s, b / a);
+    return EVAL_OK;
 }
 
-void dot(stack *s) {
-    int a = pop(s);
+err_t dot(stack *s) {
+    selem a;
+    CHECK_POP(s, a);
     printf("%d\n", a);
+    return EVAL_OK;
 }
 
-void dup(stack *s) {
-    int a = pop(s);
+err_t dup(stack *s) {
+    selem a;
+    CHECK_POP(s, a);
     push(s, a);
     push(s, a);
+    return EVAL_OK;
 }
 
-void drop(stack *s) { pop(s); }
+err_t drop(stack *s) {
+    selem a;
+    CHECK_POP(s, a);
+    return EVAL_OK;
+}
 
-void rot(stack *s) {
-    int a = pop(s);
-    int b = pop(s);
-    int c = pop(s);
+err_t rot(stack *s) {
+    selem a, b, c;
+    CHECK_POP(s, a);
+    CHECK_POP(s, b);
+    CHECK_POP(s, c);
     push(s, b);
     push(s, a);
     push(s, c);
+    return EVAL_OK;
 }
 
-void swap(stack *s) {
-    int a = pop(s);
-    int b = pop(s);
+err_t swap(stack *s) {
+    selem a, b;
+    CHECK_POP(s, a);
+    CHECK_POP(s, b);
     push(s, a);
     push(s, b);
+    return EVAL_OK;
 }
 
-void over(stack *s) {
-    int a = pop(s);
-    int b = pop(s);
+err_t over(stack *s) {
+    selem a, b;
+    CHECK_POP(s, a);
+    CHECK_POP(s, b);
     push(s, b);
     push(s, a);
     push(s, b);
+    return EVAL_OK;
 }
 
-void equal(stack *s) {
-    int a = pop(s);
-    int b = pop(s);
+err_t equal(stack *s) {
+    selem a, b;
+    CHECK_POP(s, a);
+    CHECK_POP(s, b);
     push(s, a == b ? -1 : 0);  // FIXME: define TRUE and FALSE
+    return EVAL_OK;
 }
 
-void assert_(stack *s) {
-    int a = pop(s);
+err_t assert_(stack *s) {
+    selem a;
+    CHECK_POP(s, a);
     if (a == 0) {
-        printf("Assertion failed\n");
-        exit(-1);
+        return EVAL_ASSERTION_FAILED;
     }
+    return EVAL_OK;
 }

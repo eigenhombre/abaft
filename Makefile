@@ -1,9 +1,9 @@
-.PHONY: all clean mac-deps run doc docker
+.PHONY: all clean mac-deps run doc docker test
 
 NONTEST_C = $(shell find src -name '*.c' -not -name 'test.c')
 NONMAIN_C = $(shell find src -name '*.c' -not -name 'main.c')
 CFLAGS = -std=c17 -Wall -Werror -fsanitize=address -Iinclude
-CC = gcc
+CC = cc   # Use default
 ALL_H = $(shell find . -name '*.h')
 
 abaft: ${NONTEST_C} ${ALL_H}
@@ -14,7 +14,7 @@ all: clean doc abaft test
 mac-deps:
 	brew install clang-format
 
-test: src/*.c ${ALL_H} Makefile
+test:  # Always rebuild and run tests:
 	${CC} ${CFLAGS} -o test ${NONMAIN_C}
 	./test
 
