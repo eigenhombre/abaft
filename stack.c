@@ -18,7 +18,11 @@ stack *new_stack(size_t size) {
     return s;
 }
 
-void free_stack(stack *s) { free(s); }
+void free_stack(stack *s) {
+    free(s->data);
+    free(s);
+}
+
 int stack_empty(stack *s) { return s->sp == 0; }
 int stack_full(stack *s) { return s->sp == s->size; }
 
