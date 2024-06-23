@@ -15,10 +15,10 @@ News](https://news.ycombinator.com/item?id=13082825).
 
     
     $ make
-    clang -o abaft ./forth.c ./stack.c ./main.c ./parse.c ./cfunc.c -std=c17 -Wall -fsanitize=address
+    cc -o abaft ./forth.c ./stack.c ./main.c ./parse.c ./cfunc.c -std=c17 -Wall -fsanitize=address
     
     $ ./abaft -e examples.fs
-    Sally Forth. Monnie Abaft.
+    Sally Forth. Hallie Abaft.
     > 1 2 + .
     3
     > 5 6 * 19 20 + * .
