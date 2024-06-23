@@ -1,7 +1,9 @@
 #define _GNU_SOURCE
 
-#include "forth.h"
-
+#include <abaft/cfunc.h>
+#include <abaft/forth.h>
+#include <abaft/parse.h>
+#include <abaft/stack.h>
 #include <assert.h>
 #include <ctype.h>
 #include <stddef.h>
@@ -9,10 +11,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
-
-#include "cfunc.h"
-#include "parse.h"
-#include "stack.h"
 
 int homegrown;
 bool compile_mode = false;

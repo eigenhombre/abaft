@@ -1,13 +1,12 @@
+#include <abaft/forth.h>
+#include <abaft/parse.h>
+#include <abaft/stack.h>
 #include <assert.h>
 #include <ctype.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-#include "forth.h"
-#include "parse.h"
-#include "stack.h"
 
 void test_stack(void) {
     // round trip alloc/free:

@@ -1,13 +1,12 @@
+#include <abaft/forth.h>
+#include <abaft/names.h>
+#include <abaft/parse.h>
+#include <abaft/stack.h>
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-#include "forth.h"
-#include "names.h"
-#include "parse.h"
-#include "stack.h"
 
 // choose random name from file
 char *choose_name() {

@@ -1,5 +1,4 @@
-#include "cfunc.h"
-
+#include <abaft/cfunc.h>
 #include <stdio.h>   // printf
 #include <stdlib.h>  // exit
 

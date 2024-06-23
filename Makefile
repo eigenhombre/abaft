@@ -1,23 +1,21 @@
-.PHONY: all clean mac-deps tidy run doc docker
+.PHONY: all clean mac-deps run doc docker
 
 PROG = abaft
-NONTEST_C = $(shell find . -name '*.c' -not -name 'test.c')
-NONMAIN_C = $(shell find . -name '*.c' -not -name 'main.c')
-CFLAGS = -std=c17 -Wall -Werror -fsanitize=address
+NONTEST_C = $(shell find src -name '*.c' -not -name 'test.c')
+NONMAIN_C = $(shell find src -name '*.c' -not -name 'main.c')
+CFLAGS = -Iinclude -std=c17 -Wall -Werror -fsanitize=address
 CC = cc
+ALL_H = $(shell find . -name '*.h')
 
-${PROG}: ${NONTEST_C} *.h
+${PROG}: ${NONTEST_C} ${ALL_H}
 	${CC} -o ${PROG} ${NONTEST_C} ${CFLAGS}
 
-all: clean doc tidy ${PROG} test
+all: clean doc ${PROG} test
 
 mac-deps:
 	brew install clang-format
 
-tidy: *.c *.h
-	clang-format -i *.c *.h
-
-test: *.c *.h Makefile
+test: src/*.c ${ALL_H} Makefile
 	${CC} -o test ${NONMAIN_C} ${CFLAGS}
 	./test
 
