@@ -37,7 +37,12 @@ int main(int argc, char *argv[]) {
         }
         char line[LINELEN];
         while (fgets(line, LINELEN, fp) != NULL) {
-            eval_line(line, s, INTERPRET_VERBOSE);
+            err_t result = eval_line(line, s, INTERPRET_VERBOSE);
+            if (result != EVAL_OK) {
+                printf("Error '%d (%s)' interpreting line: %s\n", result,
+                       err_strs[result], line);
+                return 1;
+            }
         }
         return 0;
     }
@@ -46,12 +51,16 @@ int main(int argc, char *argv[]) {
         printf("> ");
         // Read a line
         char line[LINELEN];
-        char *result = fgets(line, LINELEN, stdin);
-        if (result == NULL) {
+        char *lres = fgets(line, LINELEN, stdin);
+        if (lres == NULL) {
             printf("EOF.  Bye!\n");
             break;
         }
-        eval_line(line, s, INTERPRET_NORMAL);
+        err_t result = eval_line(line, s, INTERPRET_NORMAL);
+        if (result != EVAL_OK) {
+            printf("Error '%d (%s)' interpreting line: %s\n", result,
+                   err_strs[result], line);
+        }
     }
     free(s);
     return 0;

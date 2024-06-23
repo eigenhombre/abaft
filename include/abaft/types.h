@@ -17,13 +17,18 @@ typedef enum {
     INTERPRET_VERBOSE,
 } eval_mode;
 
+// See errors.c for descriptions:
 typedef enum {
     EVAL_OK,
     EVAL_UNKNOWN_WORD,
     EVAL_UNKNOWN_FILE,
     EVAL_STACK_UNDERFLOW,
     EVAL_ASSERTION_FAILED,
+    //
+    EVAL_NUM_ERRORS,
 } err_t;
+
+extern const char *err_strs[];
 
 typedef struct entry {
     char *name;
