@@ -6,9 +6,9 @@
 typedef uint32_t selem;
 
 typedef struct stack {
-    selem *data;
-    int size;
-    int sp;
+  selem *data;
+  int size;
+  int sp;
 } stack;
 
 selem pop(stack *s);

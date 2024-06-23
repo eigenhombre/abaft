@@ -15,10 +15,10 @@ News](https://news.ycombinator.com/item?id=13082825).
 
     
     $ make
-    cc -o abaft ./forth.c ./stack.c ./main.c ./parse.c -std=c17 -Wall
+    clang -o abaft ./forth.c ./stack.c ./main.c ./parse.c ./cfunc.c -std=c17 -Wall -fsanitize=address
     
     $ ./abaft -e examples.fs
-    Sally Forth. Lezlie Abaft.
+    Sally Forth. Monnie Abaft.
     > 1 2 + .
     3
     > 5 6 * 19 20 + * .
@@ -49,6 +49,11 @@ News](https://news.ycombinator.com/item?id=13082825).
     1
     3
     2
+    >
+    > : square dup * ;
+    Entering compile mode
+    Name of new word is 'square'
+    Leaving compile mode
     
     
     

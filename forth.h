@@ -2,21 +2,27 @@
 #define __FORTH_H__
 
 #include "stack.h"
+#include "stdbool.h"
 
 typedef struct entry {
     char *name;
     void (*func)(stack *s);
+    int *def;
+    int deflen;
+    bool immediate;
 } entry;
 
-entry *lookup(char *name);
+entry *lookup(char *name, int len);
 
 typedef enum {
     INTERPRET_NORMAL = 0,
     INTERPRET_VERBOSE,
-} interpret_mode;
+} eval_mode;
 
-void interpret_word(char *word, stack *s);
+void eval_word(char *word, int len, stack *s);
 
-void interpret_line(char *line, stack *s, interpret_mode mode);
+void eval_line(char *line, stack *s, eval_mode mode);
+
+void eval_file(const char *filename, stack *s);
 
 #endif
