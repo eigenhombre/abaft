@@ -1,9 +1,10 @@
 FROM ubuntu:23.04
 
-RUN apt -q -y update
-RUN apt -q -y upgrade
-RUN apt -q -y upgrade
-RUN apt-get -q -y install build-essential
+RUN apt -qq -y update
+RUN apt -qq -y upgrade
+RUN apt -qq -y upgrade
+RUN apt-get -qq -y install build-essential
 
+WORKDIR /usr/src/abaft
 COPY . .
 RUN make clean abaft test

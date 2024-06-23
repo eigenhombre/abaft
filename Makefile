@@ -3,7 +3,7 @@
 NONTEST_C = $(shell find src -name '*.c' -not -name 'test.c')
 NONMAIN_C = $(shell find src -name '*.c' -not -name 'main.c')
 CFLAGS = -std=c17 -Wall -Werror -fsanitize=address -Iinclude
-CC = cc
+CC = gcc
 ALL_H = $(shell find . -name '*.h')
 
 abaft: ${NONTEST_C} ${ALL_H}
