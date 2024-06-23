@@ -3,7 +3,7 @@
 PROG = abaft
 NONTEST_C = $(shell find . -name '*.c' -not -name 'test.c')
 NONMAIN_C = $(shell find . -name '*.c' -not -name 'main.c')
-CFLAGS = -std=c17 -Wall -fsanitize=address
+CFLAGS = -std=c17 -Wall -Werror -fsanitize=address
 CC = cc
 
 ${PROG}: ${NONTEST_C} *.h
