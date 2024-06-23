@@ -1,29 +1,28 @@
 .PHONY: all clean mac-deps run doc docker
 
-PROG = abaft
 NONTEST_C = $(shell find src -name '*.c' -not -name 'test.c')
 NONMAIN_C = $(shell find src -name '*.c' -not -name 'main.c')
-CFLAGS = -Iinclude -std=c17 -Wall -Werror -fsanitize=address
+CFLAGS = -std=c17 -Wall -Werror -fsanitize=address -Iinclude
 CC = cc
 ALL_H = $(shell find . -name '*.h')
 
-${PROG}: ${NONTEST_C} ${ALL_H}
-	${CC} -o ${PROG} ${NONTEST_C} ${CFLAGS}
+abaft: ${NONTEST_C} ${ALL_H}
+	${CC} ${CFLAGS} -o abaft ${NONTEST_C}
 
-all: clean doc ${PROG} test
+all: clean doc abaft test
 
 mac-deps:
 	brew install clang-format
 
 test: src/*.c ${ALL_H} Makefile
-	${CC} -o test ${NONMAIN_C} ${CFLAGS}
+	${CC} ${CFLAGS} -o test ${NONMAIN_C}
 	./test
 
 clean:
-	rm -f ${PROG} test
+	rm -f abaft test
 
-run: ${PROG}
-		echo 1 2 3 | ./${PROG}
+run: abaft
+		echo 1 2 3 | ./abaft
 
 doc:
 	python updatereadme.py
